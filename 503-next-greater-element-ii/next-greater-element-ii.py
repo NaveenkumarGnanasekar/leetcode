@@ -1,15 +1,20 @@
 class Solution(object):
     def nextGreaterElements(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
-        res = [-1]*len(nums)
-        for i in range(0,len(nums)):
-            for j in range (1,len(nums)):
-                index = (i+j) % len(nums)
-                if nums[index] > nums[i]:
-                    res[i]=nums[index]
-                    break
-           
-        return res
+
+        n = len(nums)
+        ans = [-1] * n
+        stack = []
+
+        for i in range(2 * n - 1, -1, -1):
+
+            j = i % n
+
+            while stack and stack[-1] <= nums[j]:
+                stack.pop()
+
+            if i < n and stack:
+                ans[j] = stack[-1]
+
+            stack.append(nums[j])
+
+        return ans
